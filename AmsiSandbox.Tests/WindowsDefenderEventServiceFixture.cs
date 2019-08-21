@@ -8,6 +8,41 @@
     public class WindowsDefenderEventServiceFixture
     {
         [TestMethod]
+        public void TestWindowsDefenderEventServiceSetScheduleTime()
+        {
+            // arrange
+            const int minutesPastMidnight = 123;
+            var sut = new WindowsDefenderEventService();
+
+            // act
+            sut.ProcessStartupAction();
+            var succeeded = sut.SetScanScheduleTime(minutesPastMidnight);
+
+            // assert
+            Assert.IsTrue(succeeded);
+        }
+
+        [TestMethod]
+        public void TestWindowsDefenderEventServiceReadsLogs()
+        {
+            // arrange
+            var to = new DateTimeOffset(DateTime.Now.AddDays(1));
+            var from = new DateTimeOffset(DateTime.Now.AddDays(-3));
+            var sut = new WindowsDefenderEventService();
+
+            // act
+            sut.ProcessStartupAction();
+            ScanViralString();
+            var loggedEvent = sut.GetLogsByDateRange(from, to).ReadEvent();
+
+            // assert
+            Assert.IsNotNull(loggedEvent);
+            Assert.AreEqual("Microsoft-Windows-Windows Defender", loggedEvent.ProviderName);
+
+            sut.ProcessShutdownAction();
+        }
+
+        [TestMethod]
         public void TestWindowsDefenderEventServiceRaisesEvent()
         {
             // arrange

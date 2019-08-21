@@ -2,11 +2,16 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Diagnostics.Eventing.Reader;
+    using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Xml;
+    using GroupPolicyCom;
+    using Microsoft.Win32;
 
-    public class WindowsDefenderEventService : IDisposable, IWindowsDefenderEventService
+    public class WindowsDefenderEventService : IDisposable
     {
         private const string AvEventsQueryText = @"*[System/Provider/@Name=""Microsoft-Windows-Windows Defender""]";
         private EventLogWatcher _watcher;
@@ -17,6 +22,72 @@
         }
 
         public event EventHandler<MalwareAlertEventArgs> MalwareAlertEvent;
+
+        public bool SetScanScheduleTime(int minutesPastMidnight)
+        {
+            try
+            {
+                var gpo = new ComputerGroupPolicyObject();
+
+                using (var machine = gpo.GetRootRegistryKey(GroupPolicySection.Machine))
+                {
+                    using (var scheduleTimeKey =
+                        machine.CreateSubKey(GroupPolicyPaths.WindowsDefenderScanTimeOfDayScheduled))
+                    {
+                        scheduleTimeKey?.SetValue(GroupPolicyPaths.ScheduleTimeKeyName, minutesPastMidnight,
+                            RegistryValueKind.DWord);
+                    }
+                }
+
+                gpo.Save();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public async Task ExecuteQuickScan()
+        {
+            var pathToScanner =
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), 
+                    "Windows Defender", 
+                    "mpcmdrun.exe");
+
+            await Task.Run(() =>
+            {
+                using (var proc = new Process())
+                {
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.FileName = pathToScanner;
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.Start();
+                    proc.WaitForExit();
+                }
+            });
+        } 
+
+        public EventLogReader GetLogsByDateRange(DateTimeOffset @from, DateTimeOffset to)
+        {
+            try
+            {
+                var qry = new EventLogQuery(
+                    "Microsoft-Windows-Windows Defender/Operational",
+                    PathType.LogName,
+                    $"*[System[TimeCreated[@SystemTime >= '{from.ToUniversalTime().ToString("o")}' and @SystemTime <= '{to.ToUniversalTime().ToString("o")}']]]");
+                var rdr = new EventLogReader(qry);
+                return rdr;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
 
         public void ProcessStartupAction()
         {

@@ -46,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmsiNativeMethods.cs" />
+    <Compile Include="GroupPolicyCom\AssemblyInfoHelper.cs" />
+    <Compile Include="GroupPolicyCom\ComputerGroupPolicyObject.cs" />
+    <Compile Include="GroupPolicyCom\GroupPolicyObjectBase.cs" />
+    <Compile Include="GroupPolicyCom\GroupPolicyObjectSettings.cs" />
+    <Compile Include="GroupPolicyCom\GroupPolicyPaths.cs" />
+    <Compile Include="GroupPolicyCom\IGroupPolicyObject.cs" />
     <Compile Include="MalwareAlertConditionEnum.cs" />
     <Compile Include="MalwareAlertEventArgs.cs" />
     <Compile Include="MalwareEventCodes.cs" />
@@ -56,5 +62,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
