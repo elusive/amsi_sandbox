@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmsiSandbox", "AmsiSandbox\AmsiSandbox.csproj", "{0C0599DB-0DB5-479B-96F9-8C77DB1319FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D49627EC-AABD-452A-A154-14E51E0D58ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmsiSandbox.Tests", "AmsiSandbox.Tests\AmsiSandbox.Tests.csproj", "{6FCAE025-E967-4053-8549-FC7961574F15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C0599DB-0DB5-479B-96F9-8C77DB1319FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C0599DB-0DB5-479B-96F9-8C77DB1319FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C0599DB-0DB5-479B-96F9-8C77DB1319FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C0599DB-0DB5-479B-96F9-8C77DB1319FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FCAE025-E967-4053-8549-FC7961574F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FCAE025-E967-4053-8549-FC7961574F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FCAE025-E967-4053-8549-FC7961574F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FCAE025-E967-4053-8549-FC7961574F15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4123E8F8-9761-4A4B-ADFD-D9135757DB5D}
+	EndGlobalSection
+EndGlobal
